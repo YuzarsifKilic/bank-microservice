@@ -15,6 +15,36 @@ services:
       file: common-config.yml
       service: network-deploy-service
 
+  carddb:
+    container_name: carddb
+    ports:
+      - 3309:3306
+    environment:
+      MYSQL_DATABASE: carddb
+    extends:
+      file: common-config.yml
+      service: microservice-db-config
+
+  loandb:
+    container_name: loandb
+    ports:
+      - 3308:3306
+    environment:
+      MYSQL_DATABASE: loandb
+    extends:
+      file: common-config.yml
+      service: microservice-db-config
+
+  accountdb:
+    container_name: accountdb
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_DATABASE: accountdb
+    extends:
+      file: common-config.yml
+      service: microservice-db-config
+
   configserver:
     image: "yuzarsifkilic/configserver:0.0.1-SNAPSHOT"
     container_name: configserver-ms
@@ -36,34 +66,46 @@ services:
       service: microservice-base-config
 
   account:
-    image: "yuzarsifkilic/account:0.0.1-SNAPSHOT"
+    image: "yuzarsifkilic/account:0.0.2-SNAPSHOT"
     container_name: account-ms
     ports:
       - "8080:8080"
+    depends_on:
+      accountdb:
+        condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: "account"
+      SPRING_DATASOURCE_URL: "jdbc:mysql://accountdb:3306/accountdb"
     extends:
       file: common-config.yml
       service: microservice-configserver-config
 
   card:
-    image: "yuzarsifkilic/card:0.0.1-SNAPSHOT"
+    image: "yuzarsifkilic/card:0.0.2-SNAPSHOT"
     container_name: card-ms
     ports:
       - "9000:9000"
+    depends_on:
+      carddb:
+        condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: "card"
+      SPRING_DATASOURCE_URL: "jdbc:mysql://carddb:3306/carddb"
     extends:
       file: common-config.yml
       service: microservice-configserver-config
 
   loan:
-    image: "yuzarsifkilic/loan:0.0.1-SNAPSHOT"
+    image: "yuzarsifkilic/loan:0.0.2-SNAPSHOT"
     container_name: loan-ms
     ports:
       - "8090:8090"
+    depends_on:
+      loandb:
+        condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: "loan"
+      SPRING_DATASOURCE_URL: "jdbc:mysql://loandb:3306/loandb"
     extends:
       file: common-config.yml
       service: microservice-configserver-config

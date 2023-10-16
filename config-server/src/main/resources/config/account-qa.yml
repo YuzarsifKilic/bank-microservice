@@ -1,11 +1,11 @@
 build:
-  version: "1.0"
+  version: "2.0"
 
-accounts:
-  message: "Welcome to EazyBank accounts related prod APIs "
+account:
+  message: "Welcome to EazyBank accounts related QA APIs "
   contactDetails:
-    name: "Reine Aishwarya - Product Owner"
-    email: "aishwarya@eazybank.com"
+    name: "Smitha Ray - QA Lead"
+    email: "smitha@eazybank.com"
   onCallSupport:
-    - (453) 392-4829
-    - (236) 203-0384
+    - (666) 265-3765
+    - (666) 734-8371

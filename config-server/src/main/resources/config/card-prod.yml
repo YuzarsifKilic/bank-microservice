@@ -1,11 +1,11 @@
 build:
-  version: "3.0"
+  version: "1.0"
 
-cards:
-  message: "Welcome to EazyBank cards related local APIs "
+card:
+  message: "Welcome to EazyBank cards related prod APIs "
   contactDetails:
-    name: "Dragos Lech - Developer"
-    email: "dragos@eazybank.com"
+    name: "Sandra Harald - Product Owner"
+    email: "sandra@eazybank.com"
   onCallSupport:
-    - (412) 419-3491
-    - (915) 382-1932
+    - (617) 432-2356
+    - (936) 564-8721

@@ -1,6 +1,7 @@
 package com.yuzarsif.account.controller;
 
 import com.yuzarsif.account.constants.AccountConstants;
+import com.yuzarsif.account.dto.AccountsContactInfoDto;
 import com.yuzarsif.account.dto.CustomerDto;
 import com.yuzarsif.account.dto.ErrorResponseDto;
 import com.yuzarsif.account.dto.ResponseDto;
@@ -13,7 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -25,11 +26,16 @@ import org.springframework.web.bind.annotation.*;
 )
 @RestController
 @RequestMapping("/api/accounts")
-@AllArgsConstructor
 @Validated
 public class AccountController {
 
-    private AccountService accountService;
+    private final AccountService accountService;
+    @Autowired
+    private AccountsContactInfoDto accountsContactInfoDto;
+
+    public AccountController(AccountService accountService) {
+        this.accountService = accountService;
+    }
 
     @Operation(
             summary = "Create Account REST API",
@@ -157,5 +163,12 @@ public class AccountController {
                     .status(HttpStatus.EXPECTATION_FAILED)
                     .body(new ResponseDto(AccountConstants.STATUS_417, AccountConstants.MESSAGE_417_DELETE));
         }
+    }
+
+    @GetMapping("/contact-info")
+    public ResponseEntity<AccountsContactInfoDto> getContactInfo() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(accountsContactInfoDto);
     }
 }
